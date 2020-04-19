@@ -139,6 +139,8 @@ class TelegramChannel(MasterChannel):
         self.bot_manager.dispatcher.add_handler(
             CommandHandler("help", self.help, filters=non_edit_filter))
         self.bot_manager.dispatcher.add_handler(
+            CommandHandler("show_qrcode", self.show_qrcode, filters=non_edit_filter))
+        self.bot_manager.dispatcher.add_handler(
             CommandHandler("info", self.info, filters=non_edit_filter))
         self.bot_manager.dispatcher.add_handler(
             CallbackQueryHandler(self.void_callback_handler, pattern="void"))
@@ -427,6 +429,8 @@ class TelegramChannel(MasterChannel):
                      "    Show information of the current Telegram chat.\n"
                      "/react [emoji]\n"
                      "    React to a message with an emoji, or show a list of members reacted.\n"
+                     "/show_qrcode\n"
+                     "    Show QR code of social profile.\n"
                      "/update_info\n"
                      "    Update info of linked Telegram group.\n"
                      "    Only works in singly linked group where the bot is an admin.\n"
@@ -435,6 +439,9 @@ class TelegramChannel(MasterChannel):
                      "/help\n"
                      "    Print this command list.")
         self.bot_manager.send_message(update.message.from_user.id, txt)
+
+    def show_qrcode(self, update: Update, context: CallbackContext):
+        self.bot_manager.send_photo(update.message.from_user.id, photo=open('qrcode.jpg', 'rb'))
 
     def poll(self):
         """

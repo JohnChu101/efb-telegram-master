@@ -16,8 +16,6 @@ Unreleased
 
 Added
 -----
-- Add support to outgoing 🎲 messages from Telegram
-- Allow wizard to set commands list of the bot
 
 Changed
 -------
@@ -27,14 +25,40 @@ Removed
 
 Fixed
 -----
+
+Known issue
+-----------
+
+
+2.1.0_ - 2020-07-11
+===================
+
+Fixed
+-----
+- Update dependency requirement of ``python-telegram-bot`` for the latest API.
+- Bump minor version for the new features added in 2.0.4.
+
+2.0.4_ - 2020-07-09
+===================
+
+Added
+-----
+- Add support to outgoing 🎲, 🎯, 🏀 messages from Telegram
+- Allow wizard to set commands list of the bot
+- Show invalid remote chats when sending ``/link`` to a group (`#100`_)
+- Suppress first poll conflict warning within 60 seconds as an isolated case (`#103`_)
+
+
+Fixed
+-----
 - Program breaks when older version of Pillow is encountered
 - Attempt to fix the issue where choosing destination for a an unaddressed
   message may lead to unintended behavior
 - Wizard should return int instead of float
 - Some symbols are over escaped in chat names
-
-Known issue
------------
+- Missing ``send_to_last_chat`` in wizard (`#99`_)
+- Migrate from ``tgs`` to ``lottie`` per upstream library
+- Editing messages sent with destination specified post-sending will not trigger error message again (`#102`_)
 
 2.0.3_ - 2020-04-04
 ===================
@@ -101,4 +125,10 @@ First release.
 .. _2.0.1: https://etm.1a23.studio/compare/v2.0.0...v2.0.1
 .. _2.0.2: https://etm.1a23.studio/compare/v2.0.1...v2.0.2
 .. _2.0.3: https://etm.1a23.studio/compare/v2.0.2...v2.0.3
+.. _2.0.4: https://etm.1a23.studio/compare/v2.0.3...v2.0.4
+.. _2.1.0: https://etm.1a23.studio/compare/v2.0.4...v2.1.0
 .. _#93: https://etm.1a23.studio/issues/93
+.. _#99: https://etm.1a23.studio/issues/99
+.. _#100: https://etm.1a23.studio/issues/100
+.. _#102: https://etm.1a23.studio/issues/102
+.. _#103: https://etm.1a23.studio/issues/103

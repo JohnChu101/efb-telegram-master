@@ -3,21 +3,21 @@
 import html
 import logging
 import mimetypes
+import time
 from gettext import NullTranslations, translation
-from typing import Optional, List
+from typing import Optional, List, Callable
 from xmlrpc.server import SimpleXMLRPCServer
 
-import telegram
+import telegram  # lgtm [py/import-and-import-from]
 import telegram.constants
 import telegram.error
-import telegram.ext
 from PIL import Image, WebPImagePlugin
 from pkg_resources import resource_filename
 from ruamel.yaml import YAML
 from telegram import Message, Update
 from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext, Filters
 
-import ehforwarderbot
+import ehforwarderbot  # lgtm [py/import-and-import-from]
 from ehforwarderbot import Channel, coordinator
 from ehforwarderbot import utils as efb_utils
 from ehforwarderbot.channel import MasterChannel
@@ -76,6 +76,8 @@ class TelegramChannel(MasterChannel):
     # Data
     _stop_polling = False
     timeout_count = 0
+    last_poll_confliction_time = 0.0
+    CONFLICTION_TIMEOUT = 60  # seconds since last confliction warnings received
 
     # Constants
     config: dict
@@ -87,7 +89,7 @@ class TelegramChannel(MasterChannel):
     locale: Optional[str] = None
 
     # RPC server
-    rpc_server: SimpleXMLRPCServer = None
+    rpc_server: Optional[SimpleXMLRPCServer] = None
 
     def __init__(self, instance_id: InstanceID = None):
         """
@@ -159,11 +161,11 @@ class TelegramChannel(MasterChannel):
         self.rpc_utilities = RPCUtilities(self)
 
     @property
-    def _(self):
+    def _(self) -> Callable[[str], str]:
         return self.translator.gettext
 
     @property
-    def ngettext(self):
+    def ngettext(self) -> Callable[[str, str, int], str]:
         return self.translator.ngettext
 
     def load_config(self):
@@ -456,10 +458,16 @@ class TelegramChannel(MasterChannel):
         """
         error = context.error
         if "make sure that only one bot instance is running" in str(error):
-            msg = self._('Conflicted polling detected. If this error persists, '
-                         'please ensure you are running only one instance of this Telegram bot.')
-            self.logger.critical(msg)
-            self.bot_manager.send_message(self.config['admins'][0], msg)
+            now = time.time()
+            # Warn the user only from the second time within ``CONFLICTION_TIMEOUT``
+            # seconds to suppress isolated warnings.
+            # https://github.com/blueset/efb-telegram-master/issues/103
+            if now - self.last_poll_confliction_time < self.CONFLICTION_TIMEOUT:
+                msg = self._('Conflicted polling detected. If this error persists, '
+                             'please ensure you are running only one instance of this Telegram bot.')
+                self.logger.critical(msg)
+                self.bot_manager.send_message(self.config['admins'][0], msg)
+            self.last_poll_confliction_time = now
             return
         if "Invalid server response" in str(error) and not update:
             self.logger.error("Boom! Telegram API is no good. (Invalid server response.)")

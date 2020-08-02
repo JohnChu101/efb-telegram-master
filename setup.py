@@ -43,7 +43,7 @@ setup(
     tests_require=tests_require,
     install_requires=[
         "ehforwarderbot>=2.0.0",
-        "python-telegram-bot>=12.6",
+        "python-telegram-bot>=12.8",
         "python-magic",
         "ffmpeg-python",
         "peewee",
@@ -56,9 +56,9 @@ setup(
         "bullet",
         "cjkwrap",
         "humanize",
-        "tgs",
+        "lottie",
         "typing-extensions>=3.7.4.1",
-        "cairosvg",  # required by ``tgs`` to export GIF
+        "cairosvg",  # required by ``lottie`` to export GIF
     ],
     extras_require={
         'tests': tests_require

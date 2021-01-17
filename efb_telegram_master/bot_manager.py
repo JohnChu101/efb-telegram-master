@@ -12,6 +12,7 @@ import telegram.error
 from retrying import retry
 from telegram import Update, InputFile, User, File
 from telegram.ext import CallbackContext, Filters, MessageHandler, Updater, Dispatcher
+from telegram.utils.types import HandlerArg
 
 from .locale_handler import LocaleHandler
 from .locale_mixin import LocaleMixin
@@ -105,11 +106,13 @@ class TelegramBotManager(LocaleMixin):
 
                 if len(prefix + text + suffix) >= telegram.constants.MAX_CAPTION_LENGTH:
                     full_message = io.StringIO(prefix + text + suffix)
-                    truncated = prefix + text[:100] + "\n…\n" + text[:-100] + suffix
+                    truncated = prefix + text[:100] + "\n…\n" + text[-100:] + suffix
                     kwargs['caption'] = truncated
                     msg = fn(self, *args, **kwargs)
-                    filename = "%s_%s.txt" % (args[0], msg.message_id)
-                    self.updater.bot.send_document(args[0], full_message, filename,
+                    chat_id = kwargs.get("chat_id", args[0] if len(args) > 0 else "")
+                    filename = "%s_%s.txt" % (chat_id, msg.message_id)
+                    self.updater.bot.send_document(chat_id, full_message,
+                                                   filename=filename,
                                                    reply_to_message_id=msg.message_id,
                                                    caption=self._("Caption is truncated due to its length. "
                                                                   "Full message is sent as attachment."))
@@ -169,7 +172,9 @@ class TelegramBotManager(LocaleMixin):
             self.logger.debug("Webhook is set...")
 
         self.logger.debug("Checking connection to Telegram bot API...")
-        self.me: User = self.updater.bot.get_me()
+        me = self.updater.bot.get_me()
+        assert me, "Invalid bot credential provided."
+        self.me: User = me
         self.logger.debug("Connection to Telegram bot API is OK...")
         self.admins: List[int] = config['admins']
         self.dispatcher: Dispatcher = self.updater.dispatcher
@@ -264,7 +269,8 @@ class TelegramBotManager(LocaleMixin):
                 filename += ".html"
             else:
                 filename += ".txt"
-            self.updater.bot.send_document(kwargs['chat_id'], full_message, filename,
+            self.updater.bot.send_document(kwargs['chat_id'], full_message,
+                                           filename=filename,
                                            reply_to_message_id=msg.message_id,
                                            caption=self._("Message is truncated due to its length. "
                                                           "Full message is sent as attachment."))
@@ -473,7 +479,10 @@ class TelegramBotManager(LocaleMixin):
     def get_me(self, *args, **kwargs):
         return self.updater.bot.get_me(*args, **kwargs)
 
-    def session_expired(self, update: Update, context: CallbackContext):
+    def session_expired(self, update: HandlerArg, context: CallbackContext):
+        assert isinstance(update, Update)
+        assert update.effective_message
+        assert update.effective_chat
         if update.callback_query:
             update.callback_query.answer()
         self.edit_message_text(text=self._("Session expired. Please try again. (SE01)"),

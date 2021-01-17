@@ -25,9 +25,40 @@ Removed
 
 Fixed
 -----
+- Update message and caption format serialization from ``markdown`` to
+  ``markdown_v2``.
+
+2.2.2_ - 2020-12-04
+===================
+
+Fixed
+-----
+- Following the latest Bullet API change which caused setup wizard to crash
+
+
+2.2.1_ - 2020-11-23
+===================
+
+Fixed
+-----
+- Delivery failure when captions of messages from slave channel are too long
+- Exception thrown when executing a command in a command message
 
 Known issue
 -----------
+
+2.2.0_ - 2020-08-25
+===================
+
+Added
+-----
+- Experimental flag ``default_media_prompt`` to modify placeholder text of
+  media messages with no caption. (`#104`_)
+
+Changed
+-------
+- Moved ``lottie`` and ``cairosvg`` to optional dependencies to avoid
+  unnecessary hurdle on new installations.
 
 
 2.1.0_ - 2020-07-11
@@ -127,8 +158,12 @@ First release.
 .. _2.0.3: https://etm.1a23.studio/compare/v2.0.2...v2.0.3
 .. _2.0.4: https://etm.1a23.studio/compare/v2.0.3...v2.0.4
 .. _2.1.0: https://etm.1a23.studio/compare/v2.0.4...v2.1.0
+.. _2.2.0: https://etm.1a23.studio/compare/v2.1.0...v2.2.0
+.. _2.2.1: https://etm.1a23.studio/compare/v2.2.0...v2.2.1
+.. _2.2.2: https://etm.1a23.studio/compare/v2.2.1...v2.2.2
 .. _#93: https://etm.1a23.studio/issues/93
 .. _#99: https://etm.1a23.studio/issues/99
 .. _#100: https://etm.1a23.studio/issues/100
 .. _#102: https://etm.1a23.studio/issues/102
 .. _#103: https://etm.1a23.studio/issues/103
+.. _#104: https://etm.1a23.studio/issues/104

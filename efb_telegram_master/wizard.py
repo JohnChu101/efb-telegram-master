@@ -192,7 +192,7 @@ def input_bot_token(data: DataModel, default=None):
 
 def setup_proxy(data):
     if YesNo(prompt=_("Do you want to run ETM behind a proxy? "),
-             prompt_prefix="[yN] ", default="n").launch():
+             prompt_prefix="[yN] ").launch(default='n'):
         if data.data.get('request_kwargs') is None:
             data.data['request_kwargs'] = {}
         proxy_type = Bullet(prompt=_("Select proxy type"),
@@ -202,7 +202,7 @@ def setup_proxy(data):
         username = None
         password = None
         if YesNo(prompt=_("Does it require authentication? "),
-                 prompt_prefix="[yN] ", default="n").launch():
+                 prompt_prefix="[yN] ").launch(default='n'):
             username = input(_("Username: "))
             password = getpass(_("Password: "))
         if proxy_type == 'http':
@@ -474,14 +474,6 @@ flags_settings = {
            '- warn: Enable this feature and issue warnings every time when you '
            'switch a recipient with quick reply.\n'
            '- disabled: Disable this feature.')
-         ),
-    "default_media_prompt":
-        ("emoji", 'choices', ["emoji", "text", "disabled"],
-         _('Placeholder text when the a picture/video/file message has no caption.\n'
-           '\n'
-           '- emoji: Use emoji like 🖼️, 🎥, and 📄.\n'
-           '- text: Use text like “Sent a picture/video/file”.\n'
-           '- disabled: Use empty placeholders.')
          )
 }
 
@@ -489,8 +481,8 @@ flags_settings = {
 def setup_experimental_flags(data):
     print()
     widget = YesNo(prompt=_("Do you want to config experimental features? "),
-                   prompt_prefix="[yN] ", default="n")
-    if not widget.launch():
+                   prompt_prefix="[yN] ")
+    if not widget.launch(default="n"):
         return
 
     for key, value in flags_settings.items():
@@ -504,9 +496,8 @@ def setup_experimental_flags(data):
             print_wrapped(desc)
 
             ans = YesNo(prompt=f"{key}? ",
-                        default='y' if default else 'n',
                         prompt_prefix=prompt_prefix) \
-                .launch()
+                .launch(default='y' if default else 'n')
 
             data.data['flags'][key] = ans
         elif cat == 'int':
@@ -534,8 +525,7 @@ def setup_network_configurations(data):
     print()
     proceed = YesNo(prompt=_("Do you want to adjust network configurations? "
                              "(connection timeout) "),
-                    default="n",
-                    prompt_prefix="[yN] ").launch()
+                    prompt_prefix="[yN] ").launch(default='n')
     if not proceed:
         return
 
@@ -548,7 +538,7 @@ def setup_network_configurations(data):
     print()
 
     if YesNo(prompt=_("Do you want to change timeout settings? "),
-             prompt_prefix="[yN] ", default="n").launch():
+             prompt_prefix="[yN] ").launch(default='n'):
         if data.data.get('request_kwargs') is None:
             data.data['request_kwargs'] = {}
         data.data['request_kwargs']['read_timeout'] = \
@@ -568,7 +558,7 @@ def setup_rpc(data):
     print()
 
     proceed = YesNo(prompt=_("Do you want to enable RPC interface? "),
-                    prompt_prefix="[yN] ", default="n").launch()
+                    prompt_prefix="[yN] ").launch(default='n')
     if not proceed:
         return
 

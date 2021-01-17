@@ -4,9 +4,9 @@ EFB Telegram Master Channel (ETM)
 .. image:: https://img.shields.io/pypi/v/efb-telegram-master.svg
    :alt: PyPI release
    :target: https://pypi.org/project/efb-telegram-master/
-.. image:: https://github.com/ehForwarderBot/efb-telegram-master/workflows/Tests/badge.svg
+.. image:: https://github.com/blueset/efb-telegram-master/workflows/Tests/badge.svg
    :alt: Tests status
-   :target: https://github.com/ehForwarderBot/efb-telegram-master/actions
+   :target: https://github.com/blueset/efb-telegram-master/actions
 .. image:: https://pepy.tech/badge/efb-telegram-master/month
    :alt: Downloads per month
    :target: https://pepy.tech/project/efb-telegram-master
@@ -14,7 +14,7 @@ EFB Telegram Master Channel (ETM)
    :alt: Translate this project
    :target: https://crowdin.com/project/ehforwarderbot/
 
-.. image:: https://github.com/ehForwarderBot/efb-telegram-master/raw/master/banner.png
+.. image:: https://github.com/blueset/efb-telegram-master/raw/master/banner.png
    :alt: Banner
 
 `README in other languages`_.
@@ -537,10 +537,8 @@ e.g.:
 
 -   ``animated_stickers`` *(bool)* [Default: ``false``]
 
-    Enable experimental support to animated stickers. Note: you need to
-    install binary dependency ``libcairo`` on your own, and additional
-    Python dependencies via ``pip3 install "efb-telegram-master[tgs]"``
-    to enable this feature.
+    Enable experimental support to animated stickers. Note: you might need to
+    install binary dependency ``libcairo`` to enable this feature.
 
 -   ``send_to_last_chat`` *(str)* [Default: ``warn``]
 
@@ -550,14 +548,6 @@ e.g.:
     - ``warn``: Enable this feature and issue warnings every time when you
       switch a recipient with quick reply.
     - ``disabled``: Disable this feature.
-
--   ``default_media_prompt`` *(str)* [Default: ``emoji``]
-
-    Placeholder text when the a picture/video/file message has no caption.
-
-    - ``emoji``: Use emoji like 🖼️, 🎥, and 📄.
-    - ``text``: Use text like “Sent a picture/video/file”.
-    - ``disabled``: Use empty placeholders.
 
 Network configuration: timeout tweaks
 -------------------------------------

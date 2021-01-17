@@ -3,8 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 if sys.version_info < (3, 6):
-    raise Exception(
-        "Python 3.6 or higher is required. Your version is %s." % sys.version)
+    raise Exception("Python 3.6 or higher is required. Your version is %s." % sys.version)
 
 version_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                             'efb_telegram_master/__version__.py')
@@ -14,14 +13,11 @@ exec(open(version_path).read())
 
 long_description = open('README.rst').read()
 
-tests_require = ["pytest", "telethon", "cryptg", "pytest-dotenv", "flaky",
-                 "pytest-asyncio", "mypy", "pytest-html", "doit", "PySocks",
-                 "coverage", "sphinx"]
+tests_require = ["pytest", "telethon", "cryptg", "pytest-dotenv", "flaky", "pytest-asyncio", "mypy"]
 
 setup(
     name='efb-telegram-master',
-    packages=find_packages(
-        exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     version=__version__,
     description='Telegram Master Channel for EH Forwarder Bot, based on Telegram Bot API.',
     long_description=long_description,
@@ -57,17 +53,15 @@ setup(
         "pillow",
         "language-tags",
         "retrying",
-        "bullet>=2.2.0",
+        "bullet",
         "cjkwrap",
         "humanize",
+        "lottie",
         "typing-extensions>=3.7.4.1",
+        "cairosvg",  # required by ``lottie`` to export GIF
     ],
     extras_require={
-        "tests": tests_require,
-        "tgs": [
-            "lottie",
-            "cairosvg",  # required by ``lottie`` to export GIF
-        ],
+        'tests': tests_require
     },
     entry_points={
         "ehforwarderbot.master": "blueset.telegram = efb_telegram_master:TelegramChannel",

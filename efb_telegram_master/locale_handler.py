@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 from language_tags import tags
 from telegram.ext.handler import Handler
 from telegram import Update
-from telegram.utils.types import HandlerArg
 
 if TYPE_CHECKING:
     from . import TelegramChannel
@@ -35,10 +34,8 @@ class LocaleHandler(Handler):
         self.channel = channel
         self.auto_locale = self.channel.flag('auto_locale')
 
-    def check_update(self, update: HandlerArg):
+    def check_update(self, update: Update):
         if not self.auto_locale:
-            return False
-        if not isinstance(update, Update):
             return False
         if not update.effective_user or not update.effective_user.language_code:
             return

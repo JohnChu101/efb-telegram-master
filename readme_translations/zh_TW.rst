@@ -6,8 +6,8 @@ EFB Telegram 主端（ETM）
    :target: https://pypi.org/project/efb-telegram-master/
    :alt: PyPI release
 
-.. image:: https://github.com/ehForwarderBot/efb-telegram-master/workflows/Tests/badge.svg
-   :target: https://github.com/ehForwarderBot/efb-telegram-master/actions
+.. image:: https://github.com/blueset/efb-telegram-master/workflows/Tests/badge.svg
+   :target: https://github.com/blueset/efb-telegram-master/actions
    :alt: Tests status
 
 .. image:: https://pepy.tech/badge/efb-telegram-master/month
@@ -18,7 +18,7 @@ EFB Telegram 主端（ETM）
    :target: https://crowdin.com/project/ehforwarderbot/
    :alt: Translate this project
 
-.. image:: https://github.com/ehForwarderBot/efb-telegram-master/raw/master/banner.png
+.. image:: https://github.com/blueset/efb-telegram-master/raw/master/banner.png
    :alt: Banner
 
 `其他语言的 README <./readme_translations>`_。
@@ -319,7 +319,7 @@ ETM 可以协助您依照远端会话来更新 Telegram 群组的名称和
 
 * Bot 是该群组的管理员。
 
-* 该群组\ **仅绑定到了一个**远端会话
+* 该群组\ **仅绑定到了一个**\ 远端会话
 
 * 远端会话当前可用
 
@@ -393,7 +393,7 @@ ETM 不能：
 
 由于 Telegram Bot API 和 EH Forwarder Bot 的技术局限，ETM 存在一些限制：
 
-* **不支持**部分 Telegram 消息类型：
+* **不支持**\ 部分 Telegram 消息类型：
      * 游戏消息
 
      * 发票（invoice，又译「账单」、「订单」）消息
@@ -488,8 +488,7 @@ ETM 不能：
 
 * ``animated_stickers`` *(bool)* [默认值: ``false``]
 
-  启用对动画贴纸的实验性支持。注意：您需要自行安装二进制依赖 ``libcairo``，并通过 ``pip3 install
-  "efb-telegram-master[tgs]"`` 安装额外的 Python 软件包依赖，才能启用此功能。
+  启用对动态贴纸的实验支持。注意：您可能需要安装二进制依赖 ``libcairo`` 才能启用此功能。
 
 * ``send_to_last_chat`` *(str)* [默认值: ``warn``]
 
@@ -501,16 +500,6 @@ ETM 不能：
 
   * ``disabled``：禁用此功能。
 
-* ``default_media_prompt`` *(str)* [默认值：``emoji``]
-
-  当图片/视频/文件消息没有标题时使用的占位符文本。
-
-  * ``emoji``：使用 emoji， 如 🖼️、🎥 和 📄。
-
-  * ``text``：使用文本，如「发送了图片/视频/文件」。
-
-  * ``disabled``：使用空占位符。
-
 
 网络配置：超时调整
 ==================
@@ -519,7 +508,7 @@ ETM 不能：
    <https://github.com/python-telegram-bot/python-telegram-bot/wiki/Handling-network-errors#tweaking-ptb>`_，遵从
    CC-BY 3.0 许可。
 
-``python-telegram-bot`` 使用 ``urllib3`` 执行 HTTPS 请求。``urlllib3``提供了对
+``python-telegram-bot`` 使用 ``urllib3`` 执行 HTTPS 请求。``urlllib3``\ 提供了对
 ``connect_timeout`` 和 ``read_timeout`` 的控制。``urllib3`` 不回区别读超时和写超时，所以
 ``read_timeout`` 同时对读写超时生效。各个参数的默认值均为 5 秒。
 
@@ -597,9 +586,9 @@ ETM 2 中实现了一个标准的 `Python XML RPC 服务器
 ----------
 
 我们提供了 `db（数据库管理器）类
-<https://etm.1a23.studio/blob/master/efb_telegram_master/db.py>`_\ 和
-`RPCUtilities 类
 <https://etm.1a23.studio/blob/master/efb_telegram_master/rpc_utilities.py>`_\
+和 `RPCUtilities 类
+<https://etm.1a23.studio/blob/master/efb_telegram_master/db.py>`_\
 中的函数。详细文档请参考源代码。
 
 
